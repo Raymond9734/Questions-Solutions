@@ -17,65 +17,59 @@
 package main
 
 import (
-	"fmt"
 	"os"
-
-	// "github.com/01-edu/z01"
+	"github.com/01-edu/z01"
 )
 
-// func main() {
-// 	if len(os.Args) <= 1 {
-// 		return
-// 	}
-// 	words := ""
-
-// 	args := os.Args[1]
-// 	letters := []rune(args)
-
-// 	for i, c := range letters {
-// 		if c == ' ' && i != 0 && c >= 'a' && c <= 'z' {
-// 			letters[i-1] = c - 32
-// 			words += string(letters[i-1])
-// 		} else if i == len(letters)-1 && c >= 'a' && c <= 'z' {
-// 			c = c - 32
-// 			words += string(c)
-// 		} else if c >= 'A' && c <= 'Z' && i != len(letters)-1 {
-// 			c = c + 32
-// 			words += string(c)
-// 		} else {
-// 			words += string(c)
-// 		}
-// 	}
-// 	// words = strings.Join(letters, " ")
-// 	fmt.Println(words)
-
-// }
-
 func main() {
-	wordSlice := []string{}
-
-	if len(os.Args) != 2 {
+	if len(os.Args) <= 1 {
 		return
 	}
-
+	var words string
 	args := os.Args[1]
+	nwSlice := splitWhiteSpaces(args)
+
+	for _, slice := range nwSlice {
+		for i, c := range slice {
+			if i != len(slice)-1 && c >= 'A' && c <= 'Z' {
+				c = c + 32
+				words += string(c)
+			} else if i == len(slice)-1 && c >= 'a' && c <= 'z' {
+				c = c - 32
+				words += string(c)
+			} else {
+				words += string(c)
+			}
+		}
+	}
+	nStr := ""
+	for _, c := range words {
+		if len(nStr) < len(words) && c >= 'A' && c <= 'Z' {
+			nStr += string(c) + " "
+		} else {
+			nStr += string(c)
+		}
+	}
+	for _, c := range nStr {
+		z01.PrintRune(c)
+	}
+	z01.PrintRune('\n')
+}
+
+func splitWhiteSpaces(s string) []string {
+	wordSlice := []string{}
 	var indx int
-
-	for i, c := range args {
-		if c == ' ' && indx < i{
-			wordSlice = append(wordSlice, args[indx: i])
-		} 
-		indx = i + 1
+	for i, c := range s {
+		if c == ' ' {
+			if indx < i {
+				wordSlice = append(wordSlice, s[indx:i])
+			}
+			indx = i + 1
+		}
+	}
+	if indx < len(s) {
+		wordSlice = append(wordSlice, s[indx:])
 	}
 
-	if indx < len(args) {
-		wordSlice = append(wordSlice, args[indx:])
-	}
-		// else if c == ' ' && indx != 0 {
-		// 	wordSlice = append(wordSlice, args[indx: i])
-		// 	indx = i + 1
-		// } else {
-		// 	wordSlice = append(wordSlice, args[indx: ])
-		// }
-	fmt.Println(wordSlice)
+	return wordSlice
 }
