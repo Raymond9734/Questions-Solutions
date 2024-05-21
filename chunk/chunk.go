@@ -37,6 +37,7 @@ import (
 	"github.com/01-edu/z01"
 )
 
+//Bravians solution
 func Chunk(slice []int, size int) {
 	if size == 0 {
 		fmt.Println()
@@ -65,6 +66,8 @@ func Chunk(slice []int, size int) {
 	}
 	println(size, ": ", maped)
 }
+
+//Rays solution
 // func Chunk(slice []int, size int) {
 // 	count := 0
 // 	var newSlice []int
@@ -96,7 +99,6 @@ func Chunk(slice []int, size int) {
 // 	fmt.Println(outputSlice)
 
 // }
-
 
 func main() {
 	Chunk([]int{}, 10)
